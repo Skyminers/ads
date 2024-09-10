@@ -1,0 +1,13 @@
+[package]
+name = "ads"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = { version = "0.4.38", features = ["serde"]}
+eframe = "0.28.1"
+egui = "0.28.1"
+egui_extras = { version = "0.28.1", features = ["all_loaders"] }
+rand = "0.8.5"
+serde = "1.0.210"
+serde_json = "1.0.128"
