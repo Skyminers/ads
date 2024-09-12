@@ -21,3 +21,10 @@ pub fn split_to_table(input_text: String) -> Vec<Vec<String>>{
         })
         .collect()
 }
+
+pub fn vec_to_string(vec: Vec<Vec<String>>) -> String {
+    vec.iter()
+        .map(|row| row.join(", "))
+        .collect::<Vec<String>>()
+        .join("\n")
+}

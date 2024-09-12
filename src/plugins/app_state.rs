@@ -3,11 +3,11 @@ use std::sync::{Arc, Mutex};
 use std::fs::File;
 use std::io::{self, Write, Read};
 use serde::{Serialize, Deserialize};
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local};
 
 #[derive(Serialize, Deserialize)]
 pub struct Log {
-    time: DateTime<Utc>,
+    time: DateTime<Local>,
     function_info: String,
     message: String,
 }
@@ -15,7 +15,7 @@ pub struct Log {
 impl Log {
     pub fn new(info: String, message: String) -> Self {
         Self {
-            time: Utc::now(),
+            time: Local::now(),
             function_info: info,
             message,
         }
@@ -80,6 +80,23 @@ impl Default for GroupItem {
 }
 
 impl GroupItem {
+    pub fn from_raw(raw_data: &Vec<String>) -> Self {
+        let group_id = raw_data[0].parse::<usize>().unwrap_or(0);
+        let mut group_members = Vec::new();
+        for i in (1..raw_data.len()).step_by(2) {
+            if i+1 >= raw_data.len() {
+                break;
+            }
+            group_members.push(StudentItem {
+                student_id: raw_data[i].clone(),
+                student_name: raw_data[i + 1].clone(),
+            });
+        }
+        Self {
+            group_id,
+            group_members,
+        }
+    }
     pub fn to_vec(&self) -> Vec<String> {
         let mut vec = vec![self.group_id.to_string()];
         for member in &self.group_members {
@@ -282,6 +299,15 @@ impl Default for FinalItem {
 }
 
 impl FinalItem {
+    pub fn from_id_name(raw_data: &Vec<String>) -> Self {
+        let mut final_item = Self::default();
+        if raw_data.len() < 2 {
+            return final_item;
+        }
+        final_item.student_info.student_id = raw_data[0].clone();
+        final_item.student_info.student_name = raw_data[1].clone();
+        final_item
+    }
     pub fn calaculate(&mut self) {
         self.discussion_score_sum = ((self.discussion_score.iter().sum::<f32>()) / self.discussion_score.len() as f32) * 10.0;
         self.homework_score_sum = (self.homework_score.iter().sum::<f32>()) / 25.0;

@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 chrono = { version = "0.4.38", features = ["serde"]}
+chrono-tz = "0.10.0"
 eframe = "0.28.1"
 egui = "0.28.1"
 egui_extras = { version = "0.28.1", features = ["all_loaders"] }
