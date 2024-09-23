@@ -1,6 +1,8 @@
 use std::sync::{Arc, Mutex};
 use rand::seq::SliceRandom;
 
+use crate::utils::vec_to_string;
+
 use super::app_state::*;
 
 pub fn random_group(state: Arc<Mutex<AppState>>, ui: &mut egui::Ui) {
@@ -30,11 +32,19 @@ pub fn random_group(state: Arc<Mutex<AppState>>, ui: &mut egui::Ui) {
                 .map(|chunk| chunk.to_vec())
                 .collect();
 
+            let selected_numbers = vec_to_string(
+                selected_numbers.iter().map(
+                    |row| row.iter().map(
+                        |s| s.to_string()
+                    ).collect()
+                ).collect()
+            );
+
             {
                 let mut state = state.lock().unwrap();
                 state.output_text.push(Log::new(
                     format!("随机分组，大小{}", group_size),
-                    format!("{:?}", selected_numbers),
+                    selected_numbers,
                 ));
             }
         }

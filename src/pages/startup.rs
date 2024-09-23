@@ -1,7 +1,12 @@
 use crate::{
     plugins::{
         app_state::{AppSingleton, FinalItem, GroupItem, Log, ProjectItem, TableType},
-        build_table_data::{build_final_from_input, build_group_from_input, build_project_from_group},
+        build_table_data::{
+            build_final_from_input, 
+            build_group_from_input, 
+            build_project_from_group,
+            find_student_no_group,
+        },
         random_group::random_group,
         random_selection::random_selection,
         table::table_ui,
@@ -61,7 +66,7 @@ impl eframe::App for MyEguiApp {
                         // 随机分组，大小 K
                         random_group(state.clone(), ui);
 
-                        // 从名单(学号，成绩)构造成绩表
+                        // 从名单(学号，姓名)构造成绩表
                         build_final_from_input(state.clone(), ui);
 
                         // 导入组队名单
@@ -74,6 +79,8 @@ impl eframe::App for MyEguiApp {
                         // 从组队名单构造 Project 表
                         build_project_from_group(state.clone(), ui);
 
+                        // 筛选未组队同学
+                        find_student_no_group(state.clone(), ui);
                     });
                 });
 

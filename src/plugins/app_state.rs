@@ -131,7 +131,7 @@ impl GroupItem {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone, Eq, PartialEq, Hash)]
 pub struct StudentItem {
     pub student_id: String,
     pub student_name: String,

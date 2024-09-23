@@ -254,12 +254,14 @@ pub fn table_ui(state: Arc<Mutex<AppState>>, ui: &mut egui::Ui) {
                             row.col(|ui| {
                                 ui.label(student.group_members[1].student_name.clone());
                             });
-                            row.col(|ui| {
-                                ui.label(student.group_members[2].student_id.clone());
-                            });
-                            row.col(|ui| {
-                                ui.label(student.group_members[2].student_name.clone());
-                            });
+                            if student.group_members.len() > 2 {
+                                row.col(|ui| {
+                                    ui.label(student.group_members[2].student_id.clone());
+                                });
+                                row.col(|ui| {
+                                    ui.label(student.group_members[2].student_name.clone());
+                                });
+                            }
                         });
                     }
                 });
